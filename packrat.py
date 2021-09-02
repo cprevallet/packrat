@@ -121,10 +121,7 @@ class Handler:
                     zip_data = self.client.download_activity(activity_id, dl_fmt=self.client.ActivityDownloadFormat.ORIGINAL)
                     self._updateText("Download succeeded.")
                     self._updateText("Unzipping download.")
-                    output_file = f"./{str(activity_id)}.zip"
-                    with open(output_file, "wb") as fb:
-                        fb.write(zip_data)
-                    output_file = f"./{str(activity_id)}.zip"
+                    output_file = str(activity_id) + '.zip'
                     with open(output_file, "wb") as fb:
                         fb.write(zip_data)
                     # Extract activity zip file.
@@ -135,7 +132,10 @@ class Handler:
                     else:
                       self._updateText("The file does not exist")
                     # WARNING next line assumes that zip contents are named activity_id_ACTIVITY.fit!!!!
-                    os.rename(f"./{str(activity_id)}_ACTIVITY.fit", f"./{str(start_time)}.fit")
+                    oldfilename = str(activity_id) + '_ACTIVITY.fit'
+                    # Bloody stupid Windows doesn't like spaces in filenames.
+                    newfilename = str(start_time).replace(" ", "_") + '.fit'
+                    os.rename(oldfilename, newfilename)
                     self._updateText("Unzipping download succeeded.")
 
         except (
