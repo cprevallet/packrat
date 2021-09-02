@@ -25,10 +25,15 @@ logging.basicConfig(level=logging.DEBUG)
 
 
 class Handler:
+
+    client = None
+    start = 0
+    activities = None
+
     def onDestroy(self, *args):
         Gtk.main_quit()
 
-    def onButtonPressed(self, button):
+    def onLoginPressed(self, button):
         uname = username.get_text()
         pw = password.get_text()
         """
@@ -47,7 +52,7 @@ class Handler:
         print("Garmin(email, password)")
         print("----------------------------------------------------------------------------------------")
         try:
-            client = Garmin(uname, pw)
+            self.client = Garmin(uname, pw)
         except (
             GarminConnectConnectionError,
             GarminConnectAuthenticationError,
@@ -65,10 +70,10 @@ class Handler:
         Only needed at start of your program
         The library will try to relogin when session expires
         """
-        print("client.login()")
+        print("self.client.login()")
         print("----------------------------------------------------------------------------------------")
         try:
-            client.login()
+            self.client.login()
         except (
             GarminConnectConnectionError,
             GarminConnectAuthenticationError,
@@ -80,19 +85,15 @@ class Handler:
             print("Unknown error occurred during Garmin Connect Client login")
             quit()
 
+    def onActivitiesPressed(self, button):
         """
         Get activities data
         """
-        print("client.get_activities(0,1)")
+        print(self.start)
+        print("self.client.get_activities(start,1)")
         print("----------------------------------------------------------------------------------------")
         try:
-            activities = client.get_activities(5,2) # 0=start, 1=limit
-            #startTime = datetime.datetime(2021, 8, 30, 0, 0)
-            #endTime = datetime.datetime(2021, 9, 1, 23, 59)
-            """
-            Payment required.  Grr....
-            """
-            #activities = client.get_activities_by_date(startTime.isoformat(timespec='milliseconds'), endTime.isoformat(timespec='milliseconds'), None)
+            self.activities = self.client.get_activities(self.start,20) # 0=start, 1=limit
         except (
             GarminConnectConnectionError,
             GarminConnectAuthenticationError,
@@ -103,26 +104,43 @@ class Handler:
         except Exception:  # pylint: disable=broad-except
             print("Unknown error occurred during Garmin Connect Client get activities")
             quit()
+        self.start = self.start + 20
+        for activity in self.activities:
+            print (activity['startTimeLocal'], activity['activityName'])
+
+
+    def onDownloadPressed(self, button):
+        datestr = dlactivity.get_text()
+        for activity in self.activities:
+            if activity['startTimeLocal'][0:10] == datestr:
+                activity_id = activity["activityId"]
+                print(activity_id)
 
         """
         Download an Activity
         """
         try:
-            for activity in activities:
-                activity_id = activity["activityId"]
-                print("client.download_activities(%s)", activity_id)
-                print("----------------------------------------------------------------------------------------")
-                zip_data = client.download_activity(activity_id, dl_fmt=client.ActivityDownloadFormat.ORIGINAL)
-                output_file = f"./{str(activity_id)}.zip"
-                with open(output_file, "wb") as fb:
-                    fb.write(zip_data)
-                # Extract activity zip file.
-                with zipfile.ZipFile(output_file, 'r') as zip_ref:
-                    zip_ref.extractall()
-                if os.path.exists(output_file):
-                  os.remove(output_file)
-                else:
-                  print("The file does not exist") 
+            print("self.client.download_activities(%s)", activity_id)
+            print("----------------------------------------------------------------------------------------")
+            datestr = dlactivity.get_text()
+            for activity in self.activities:
+                if activity['startTimeLocal'][0:10] == datestr:
+                    activity_id = activity["activityId"]
+                    start_time = activity["startTimeLocal"]
+                    print(activity_id)
+                    zip_data = self.client.download_activity(activity_id, dl_fmt=self.client.ActivityDownloadFormat.ORIGINAL)
+                    output_file = f"./{str(activity_id)}.zip"
+                    with open(output_file, "wb") as fb:
+                        fb.write(zip_data)
+                    """
+                    # Extract activity zip file.
+                    with zipfile.ZipFile(output_file, 'r') as zip_ref:
+                        zip_ref.extractall()
+                    if os.path.exists(output_file):
+                      os.remove(output_file)
+                    else:
+                      print("The file does not exist")
+                    """
         except (
             GarminConnectConnectionError,
             GarminConnectAuthenticationError,
@@ -142,8 +160,9 @@ builder.connect_signals(Handler())
 window = builder.get_object("window1")
 username = builder.get_object("username")
 password = builder.get_object("password")
+dlactivity = builder.get_object("dlactivity")
+textbuffer1 = builder.get_object("textbuffer1")
 password.set_visibility(False)
-cal1 = builder.get_object("cal1")
 
 window.show_all()
 
