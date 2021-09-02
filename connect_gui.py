@@ -98,10 +98,13 @@ class Handler:
             self._updateText("Unknown error occurred during Garmin Connect Client login")
         self.getActivities()
 
-    def onActivitiesPressed(self, button):
+    def onEarlierPressed(self, button):
         self.start = self.start + 20
         self.getActivities()
 
+    def onLatestPressed(self, button):
+        self.start = 0
+        self.getActivities()
 
     def onSavePressed(self, button):
         """
