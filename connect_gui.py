@@ -110,17 +110,11 @@ class Handler:
 
 
     def onDownloadPressed(self, button):
-        datestr = dlactivity.get_text()
-        for activity in self.activities:
-            if activity['startTimeLocal'][0:10] == datestr:
-                activity_id = activity["activityId"]
-                print(activity_id)
-
         """
         Download an Activity
         """
         try:
-            print("self.client.download_activities(%s)", activity_id)
+            print("self.client.download_activities")
             print("----------------------------------------------------------------------------------------")
             datestr = dlactivity.get_text()
             for activity in self.activities:
@@ -132,7 +126,6 @@ class Handler:
                     output_file = f"./{str(activity_id)}.zip"
                     with open(output_file, "wb") as fb:
                         fb.write(zip_data)
-                    """
                     # Extract activity zip file.
                     with zipfile.ZipFile(output_file, 'r') as zip_ref:
                         zip_ref.extractall()
@@ -140,7 +133,9 @@ class Handler:
                       os.remove(output_file)
                     else:
                       print("The file does not exist")
-                    """
+                    # WARNING next line assumes that zip contents are named activity_id_ACTIVITY.fit!!!!
+                    os.rename(f"./{str(activity_id)}_ACTIVITY.fit", f"./{str(start_time)}.fit")
+
         except (
             GarminConnectConnectionError,
             GarminConnectAuthenticationError,
