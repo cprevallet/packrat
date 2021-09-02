@@ -107,6 +107,10 @@ class Handler:
         self.start = self.start + 20
         for activity in self.activities:
             print (activity['startTimeLocal'], activity['activityName'])
+            line = activity['startTimeLocal'] + ' ' + activity['activityName'] + '\n'
+            cursor_mark = textbuffer1.get_insert()
+            start_iter = textbuffer1.get_iter_at_mark(cursor_mark);
+            textbuffer1.insert(start_iter, line, -1);
 
 
     def onDownloadPressed(self, button):
