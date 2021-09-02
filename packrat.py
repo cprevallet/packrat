@@ -149,7 +149,7 @@ class Handler:
 
 
 builder = Gtk.Builder()
-builder.add_from_file("connect.glade")
+builder.add_from_file("packrat.glade")
 
 window = builder.get_object("window1")
 username = builder.get_object("username")
