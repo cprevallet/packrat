@@ -72,8 +72,6 @@
                     <property name="can-focus">True</property>
                     <property name="receives-default">True</property>
                     <property name="tooltip-text" translatable="yes">Login</property>
-                    <property name="margin-left">5</property>
-                    <property name="margin-right">5</property>
                     <property name="margin-start">5</property>
                     <property name="margin-end">5</property>
                     <property name="margin-top">5</property>
@@ -86,26 +84,14 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="label" translatable="yes">Activity Date</property>
-                  </object>
-                  <packing>
-                    <property name="y">193</property>
-                  </packing>
-                </child>
-                <child>
                   <object class="GtkButton" id="button2">
-                    <property name="label">More Activities</property>
+                    <property name="label">Earlier Activities</property>
                     <property name="width-request">133</property>
                     <property name="height-request">34</property>
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">True</property>
-                    <property name="tooltip-text" translatable="yes">Login</property>
-                    <property name="margin-left">5</property>
-                    <property name="margin-right">5</property>
+                    <property name="tooltip-text" translatable="yes">Display earlier activities</property>
                     <property name="margin-start">5</property>
                     <property name="margin-end">5</property>
                     <property name="margin-top">5</property>
@@ -132,11 +118,8 @@
         </child>
         <child>
           <object class="GtkFrame" id="frame3">
-            <property name="width-request">400</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="margin-left">5</property>
-            <property name="margin-right">5</property>
             <property name="margin-start">5</property>
             <property name="margin-end">5</property>
             <property name="margin-top">5</property>
@@ -158,6 +141,7 @@
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
                         <property name="pixels-below-lines">3</property>
+                        <property name="wrap-mode">word</property>
                         <property name="left-margin">5</property>
                         <property name="right-margin">5</property>
                         <property name="top-margin">5</property>
@@ -187,13 +171,14 @@
         </child>
         <child>
           <object class="GtkBox">
+            <property name="width-request">600</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <child>
               <object class="GtkLabel" id="label1">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="label" translatable="yes">YYYY-MM-DD to Download</property>
+                <property name="label" translatable="yes">Save activities for this date (YYYY-MM-DD)</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -202,11 +187,11 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="dlactivity">
+              <object class="GtkEntry" id="activityDate">
                 <property name="name">entry1</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
-                <property name="tooltip-text" translatable="yes">Enter GarminConnect  username</property>
+                <property name="tooltip-text" translatable="yes">Date (YYYY-MM-DD)</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -216,19 +201,17 @@
             </child>
             <child>
               <object class="GtkButton" id="button3">
-                <property name="label">Download</property>
+                <property name="label">Save</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
-                <property name="tooltip-text" translatable="yes">Login</property>
-                <property name="margin-left">5</property>
-                <property name="margin-right">5</property>
+                <property name="tooltip-text" translatable="yes">Download activity(s) for the given date</property>
                 <property name="margin-start">5</property>
                 <property name="margin-end">5</property>
                 <property name="margin-top">5</property>
                 <property name="margin-bottom">5</property>
                 <property name="always-show-image">True</property>
-                <signal name="clicked" handler="onDownloadPressed" swapped="no"/>
+                <signal name="clicked" handler="onSavePressed" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
