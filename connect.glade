@@ -106,12 +106,13 @@
                     <signal name="clicked" handler="onEarlierPressed" swapped="no"/>
                   </object>
                   <packing>
+                    <property name="x">194</property>
                     <property name="y">80</property>
                   </packing>
                 </child>
                 <child>
                   <object class="GtkButton" id="button4">
-                    <property name="label">Latest Activities</property>
+                    <property name="label">Most Recent Activities</property>
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">True</property>
@@ -126,7 +127,6 @@
                     <signal name="clicked" handler="onLatestPressed" swapped="no"/>
                   </object>
                   <packing>
-                    <property name="x">148</property>
                     <property name="y">80</property>
                   </packing>
                 </child>
