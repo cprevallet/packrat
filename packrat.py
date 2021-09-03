@@ -113,7 +113,6 @@ class Handler:
         try:
             self._updateText("Attempting download.")
             datestr = activityDate.get_text()
-            self._updateText(datestr)
             for activity in self.activities:
                 if activity['startTimeLocal'][0:10] == datestr:
                     activity_id = activity["activityId"]
