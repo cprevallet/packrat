@@ -133,8 +133,8 @@ class Handler:
                       self._updateText("The file does not exist")
                     # WARNING next line assumes that zip contents are named activity_id_ACTIVITY.fit!!!!
                     oldfilename = str(activity_id) + '_ACTIVITY.fit'
-                    # Bloody stupid Windows doesn't like spaces in filenames.
-                    newfilename = str(start_time).replace(" ", "_") + '.fit'
+                    # Bloody stupid Windows doesn't like spaces or colons in filenames.
+                    newfilename = str(start_time).replace(' ', '_').replace(':', '-') + '.fit'
                     os.rename(oldfilename, newfilename)
                     self._updateText("Unzipping download succeeded.")
 
